@@ -25,6 +25,7 @@ import PhalakasanaAnimation           from './poses/PhalakasanaAnimation'
 import ChaturangaAnimation            from './poses/ChaturangaAnimation'
 import UrdhvaMukhaSvanasanaAnimation  from './poses/UrdhvaMukhaSvanasanaAnimation'
 import AdhaMukhaSvanasanaAnimation   from './poses/AdhaMukhaSvanasanaAnimation'
+import UtkatasanaAnimation           from './poses/UtkatasanaAnimation'
 
 // Add a component here to override the fallback for any pose.
 const POSE_COMPONENTS = {
@@ -35,6 +36,7 @@ const POSE_COMPONENTS = {
   'chaturanga-dandasana':    ChaturangaAnimation,
   'urdhva-mukha-svanasana':  UrdhvaMukhaSvanasanaAnimation,
   'adho-mukha-svanasana':    AdhaMukhaSvanasanaAnimation,
+  'utkatasana':              UtkatasanaAnimation,
 }
 
 const MIN_PX = 300
