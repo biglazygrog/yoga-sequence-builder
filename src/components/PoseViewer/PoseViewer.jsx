@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Play, Pause, RotateCcw, Plus, Minus } from 'lucide-react'
 import { useTimer } from '../../hooks/useTimer'
-import PoseAnimation from './PoseAnimation'
+import AnimatedPoseVisual from './AnimatedPoseVisual'
 import { ease } from '../ui/animations'
 
 const LERP   = 0.1
@@ -86,7 +86,7 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
 
       {/* Figure */}
       <div style={{ flex:'1 1 0', minHeight:0 }}>
-        <PoseAnimation joints={joints} poseId={pose?.id} />
+        <AnimatedPoseVisual joints={joints} poseId={pose?.id} series={pose?.series} />
       </div>
 
       {/* Bottom panel — slides up on mount */}
