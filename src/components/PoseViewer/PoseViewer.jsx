@@ -8,10 +8,10 @@ const RADIUS = 40
 const CIRC   = 2 * Math.PI * RADIUS
 
 const STATUS_LABEL = {
-  idle:    'READY',
-  running: 'HOLD',
-  paused:  'PAUSED',
-  done:    'DONE ✓',
+  idle:    'ready',
+  running: 'hold',
+  paused:  'paused',
+  done:    'complete',
 }
 
 // ── PoseViewer ──────────────────────────────────────────────────────────────
@@ -29,7 +29,6 @@ const STATUS_LABEL = {
 //   showTimer  – set false to render figure + name only (choose-mode preview)
 
 export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
-  // ── Lerp state — initialise from pose immediately so figure shows on frame 1
   const initJoints = () =>
     pose?.joints?.map(p => [...p]) ?? Array.from({ length: 15 }, () => [0, 0, 0])
 
@@ -39,12 +38,11 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
   const snappedRef  = useRef(!!pose?.joints)
   const rafRef      = useRef(null)
 
-  // ── Timer state ────────────────────────────────────────────────────────
   const [holdDuration, setHoldDuration] = useState(30)
   const { timeLeft, status, progress, start, pause, reset } =
     useTimer(holdDuration, onNext)
 
-  // ── Animation loop (lerp current → target) ────────────────────────────
+  // Animation loop (lerp current → target)
   useEffect(() => {
     const tick = () => {
       rafRef.current = requestAnimationFrame(tick)
@@ -64,7 +62,7 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
     return () => cancelAnimationFrame(rafRef.current)
   }, [])
 
-  // ── Snap on first pose, lerp on subsequent changes ────────────────────
+  // Snap on first pose, lerp on subsequent changes
   useEffect(() => {
     if (!pose?.joints) return
     pose.joints.forEach((pos, i) => {
@@ -77,72 +75,90 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
     }
   }, [pose])
 
-  // ── Reset timer when navigating to a new pose ─────────────────────────
+  // Reset timer when navigating to a new pose
   const resetRef = useRef(reset)
   useEffect(() => { resetRef.current = reset }, [reset])
   useEffect(() => { resetRef.current() }, [pose?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Hold duration adjustment ───────────────────────────────────────────
   const adjustHold = delta =>
     setHoldDuration(d => Math.min(60, Math.max(5, d + delta)))
 
   const minutes    = Math.floor(timeLeft / 60)
   const seconds    = timeLeft % 60
   const dashOffset = CIRC * (1 - progress)
-  const ringColor  = status === 'done' ? '#26C6DA' : '#9C6FFF'
+  const ringColor  = status === 'done' ? '#9fb8a3' : '#b9a7e8'
+
+  const glassBtn = {
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+  }
 
   return (
-    <div style={{ display:'flex', flexDirection:'column', width:'100%', height:'100%', background:'#1a1a2e' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: '#17131f' }}>
 
-      {/* ── Animated figure ─────────────────────────────────────────── */}
+      {/* Animated figure */}
       <div style={{ flex: '1 1 0', minHeight: 0 }}>
         <PoseAnimation joints={joints} poseId={pose?.id} />
       </div>
 
-      {/* ── Bottom panel ────────────────────────────────────────────── */}
+      {/* Bottom panel */}
       <div
-        className="flex-shrink-0 px-5 pt-2 space-y-3"
+        className="flex-shrink-0 px-5 pt-3 space-y-3"
         style={{
-          paddingBottom: showTimer ? 'max(env(safe-area-inset-bottom, 0px), 20px)' : '12px',
-          background: 'linear-gradient(to top, #0d0d1e 60%, transparent)',
+          paddingBottom: showTimer ? 'max(env(safe-area-inset-bottom, 0px), 20px)' : '14px',
+          background: 'linear-gradient(to top, #120e1a 55%, transparent)',
         }}
       >
         {/* Pose name */}
         <div className="text-center">
-          <h2 className={`font-bold text-white leading-tight tracking-tight ${showTimer ? 'text-[22px]' : 'text-base'}`}>
+          <h2 style={{
+            color: '#f7f2ee',
+            fontWeight: 600,
+            letterSpacing: '-0.01em',
+            lineHeight: 1.2,
+            fontSize: showTimer ? '22px' : '16px',
+          }}>
             {pose?.englishName ?? '—'}
           </h2>
-          <p className="text-xs text-slate-400 italic mt-0.5">{pose?.sanskritName}</p>
+          <p style={{ color: '#b9adbf', fontSize: '12px', fontStyle: 'italic', marginTop: '3px' }}>
+            {pose?.sanskritName}
+          </p>
         </div>
 
         {showTimer && (
           <>
-            {/* Timer ring + ±5 s adjustment */}
+            {/* Timer ring + ±5 s */}
             <div className="flex items-center justify-between gap-3">
 
               {/* −5 s */}
               <button
                 onClick={() => adjustHold(-5)}
-                className="w-12 h-12 rounded-2xl flex items-center justify-center
-                  text-[#26C6DA] transition-all active:scale-95"
-                style={{ background: '#16213e', border: '1.5px solid #2a2a5e' }}
+                className="w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
+                style={{ ...glassBtn, color: '#9fb8a3' }}
                 aria-label="Decrease hold time 5 seconds"
               >
-                <Minus size={19} />
+                <Minus size={18} />
               </button>
 
               {/* Timer ring */}
               <div className="relative w-32 h-32 flex-shrink-0">
+                {/* Breathing ambient glow */}
+                <div
+                  className="breathe-glow absolute inset-0 rounded-full pointer-events-none"
+                  style={{ background: `radial-gradient(circle, ${ringColor}28 0%, transparent 72%)` }}
+                />
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100"
                      aria-label={`${minutes}:${String(seconds).padStart(2, '0')} remaining`}>
                   {/* Track */}
                   <circle cx="50" cy="50" r={RADIUS}
-                          fill="none" stroke="#16213e" strokeWidth="8" />
+                          fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="7" />
                   {/* Progress */}
                   <circle cx="50" cy="50" r={RADIUS}
                           fill="none"
                           stroke={ringColor}
-                          strokeWidth="8"
+                          strokeWidth="7"
                           strokeLinecap="round"
                           strokeDasharray={CIRC}
                           strokeDashoffset={dashOffset}
@@ -150,26 +166,24 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
                 </svg>
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
-                  <span className="text-[22px] font-mono font-bold text-white tabular-nums leading-none">
+                  <span style={{ color: '#f7f2ee', fontSize: '22px', fontFamily: 'monospace', fontWeight: 700, lineHeight: 1 }}>
                     {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
                   </span>
-                  <span className="text-[9px] font-medium tracking-widest"
-                        style={{ color: ringColor }}>
+                  <span style={{ color: ringColor, fontSize: '9px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: '2px' }}>
                     {STATUS_LABEL[status]}
                   </span>
-                  <span className="text-[9px] text-slate-600">{holdDuration}s</span>
+                  <span style={{ color: '#8a7d94', fontSize: '9px', marginTop: '1px' }}>{holdDuration}s</span>
                 </div>
               </div>
 
               {/* +5 s */}
               <button
                 onClick={() => adjustHold(+5)}
-                className="w-12 h-12 rounded-2xl flex items-center justify-center
-                  text-[#26C6DA] transition-all active:scale-95"
-                style={{ background: '#16213e', border: '1.5px solid #2a2a5e' }}
+                className="w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
+                style={{ ...glassBtn, color: '#9fb8a3' }}
                 aria-label="Increase hold time 5 seconds"
               >
-                <Plus size={19} />
+                <Plus size={18} />
               </button>
             </div>
 
@@ -177,53 +191,53 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
             <div className="flex items-center justify-center gap-2">
               <button
                 onClick={reset}
-                className="w-10 h-10 rounded-xl flex items-center justify-center
-                  text-slate-400 hover:text-white transition-all active:scale-95"
-                style={{ background: '#16213e', border: '1.5px solid #2a2a5e' }}
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all active:scale-95"
+                style={{ ...glassBtn, color: '#b9adbf' }}
                 aria-label="Reset timer"
               >
-                <RotateCcw size={16} />
+                <RotateCcw size={15} />
               </button>
 
               <button
                 onClick={status === 'running' ? pause : start}
-                className="flex items-center gap-2 px-7 h-10 rounded-xl
-                  text-white font-semibold text-sm transition-all active:scale-95"
-                style={{ background: '#9C6FFF' }}
+                className="flex items-center gap-2 px-8 h-10 rounded-full font-semibold text-sm transition-all active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#17131f' }}
                 aria-label={status === 'running' ? 'Pause' : 'Start'}
               >
                 {status === 'running'
-                  ? <><Pause size={16} /> Pause</>
-                  : <><Play  size={16} /> Start</>}
+                  ? <><Pause size={15} /> Pause</>
+                  : <><Play  size={15} /> Start</>}
               </button>
             </div>
           </>
         )}
 
-        {/* Prev / Next navigation — hidden in preview mode */}
-        {showTimer && <div className="flex items-center gap-2">
-          <button
-            onClick={onPrev}
-            className="flex-1 h-11 rounded-2xl flex items-center justify-center gap-1.5
-              text-slate-300 font-medium text-sm transition-all active:scale-[0.97]"
-            style={{ background: '#16213e', border: '1.5px solid #2a2a5e' }}
-            aria-label="Previous pose"
-          >
-            <ChevronLeft size={17} />
-            Prev
-          </button>
+        {/* Prev / Next navigation */}
+        {showTimer && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onPrev}
+              className="flex-1 h-11 rounded-full flex items-center justify-center gap-1.5
+                font-medium text-sm transition-all active:scale-[0.97]"
+              style={{ ...glassBtn, color: '#b9adbf' }}
+              aria-label="Previous pose"
+            >
+              <ChevronLeft size={17} />
+              Prev
+            </button>
 
-          <button
-            onClick={onNext}
-            className="flex-1 h-11 rounded-2xl flex items-center justify-center gap-1.5
-              text-white font-semibold text-sm transition-all active:scale-[0.97]"
-            style={{ background: '#9C6FFF' }}
-            aria-label="Next pose"
-          >
-            Next
-            <ChevronRight size={17} />
-          </button>
-        </div>}
+            <button
+              onClick={onNext}
+              className="flex-1 h-11 rounded-full flex items-center justify-center gap-1.5
+                font-semibold text-sm transition-all active:scale-[0.97]"
+              style={{ background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#17131f' }}
+              aria-label="Next pose"
+            >
+              Next
+              <ChevronRight size={17} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

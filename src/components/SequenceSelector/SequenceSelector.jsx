@@ -4,83 +4,129 @@ import { POSES } from '../../data/poses'
 
 const POSE_BY_ID = Object.fromEntries(POSES.map(p => [p.id, p]))
 
-const COLOR_MAP = {
+const STYLE_MAP = {
   emerald: {
-    card:  'border-emerald-700/60 bg-emerald-950/40 hover:border-emerald-500',
-    badge: 'bg-emerald-900/60 text-emerald-300',
-    btn:   'bg-emerald-600 hover:bg-emerald-500',
-    dot:   'bg-emerald-500',
+    cardBg:   'linear-gradient(145deg, rgba(159,184,163,0.1) 0%, rgba(33,26,43,0.5) 100%)',
+    border:   'rgba(159,184,163,0.22)',
+    badge:    { background: 'rgba(159,184,163,0.14)', color: '#9fb8a3' },
+    btn:      { background: 'linear-gradient(135deg, #9fb8a3, #7da382)', color: '#17131f' },
+    tag:      { background: 'rgba(159,184,163,0.08)', color: '#9fb8a3' },
+    accent:   '#9fb8a3',
   },
   blue: {
-    card:  'border-blue-700/60 bg-blue-950/40 hover:border-blue-500',
-    badge: 'bg-blue-900/60 text-blue-300',
-    btn:   'bg-blue-600 hover:bg-blue-500',
-    dot:   'bg-blue-500',
+    cardBg:   'linear-gradient(145deg, rgba(213,155,122,0.1) 0%, rgba(33,26,43,0.5) 100%)',
+    border:   'rgba(213,155,122,0.22)',
+    badge:    { background: 'rgba(213,155,122,0.14)', color: '#d59b7a' },
+    btn:      { background: 'linear-gradient(135deg, #d59b7a, #b87c59)', color: '#17131f' },
+    tag:      { background: 'rgba(213,155,122,0.08)', color: '#d59b7a' },
+    accent:   '#d59b7a',
   },
   purple: {
-    card:  'border-purple-700/60 bg-purple-950/40 hover:border-purple-500',
-    badge: 'bg-purple-900/60 text-purple-300',
-    btn:   'bg-purple-600 hover:bg-purple-500',
-    dot:   'bg-purple-500',
+    cardBg:   'linear-gradient(145deg, rgba(185,167,232,0.1) 0%, rgba(33,26,43,0.5) 100%)',
+    border:   'rgba(185,167,232,0.22)',
+    badge:    { background: 'rgba(185,167,232,0.14)', color: '#b9a7e8' },
+    btn:      { background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#17131f' },
+    tag:      { background: 'rgba(185,167,232,0.08)', color: '#b9a7e8' },
+    accent:   '#b9a7e8',
   },
 }
 
 export default function SequenceSelector({ onSelect }) {
   return (
-    <div className="flex flex-col gap-4 overflow-y-auto h-full pb-4">
-      <p className="text-xs text-slate-500 text-center pt-1">
+    <div className="flex flex-col gap-3 overflow-y-auto h-full pb-4">
+      <p style={{ color: '#b9adbf', fontSize: '13px', textAlign: 'center', padding: '2px 0 6px' }}>
         Choose a series to begin your practice
       </p>
 
       {PREBUILT_SEQUENCES.map((seq, idx) => {
-        const c = COLOR_MAP[seq.color]
+        const c = STYLE_MAP[seq.color]
         const poses = seq.poseIds.map(id => POSE_BY_ID[id]).filter(Boolean)
-        // Show a few preview emojis
         const preview = poses.slice(0, 6)
 
         return (
           <motion.button
             key={seq.id}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.08 }}
+            transition={{ delay: idx * 0.1, duration: 0.5, ease: 'easeOut' }}
+            whileHover={{ y: -3, transition: { duration: 0.22, ease: 'easeOut' } }}
+            whileTap={{ scale: 0.985 }}
             onClick={() => onSelect(seq)}
-            className={`w-full text-left rounded-2xl border-2 p-4 transition-all active:scale-[0.98] ${c.card}`}
+            className="w-full text-left"
+            style={{
+              background: c.cardBg,
+              border: `1px solid ${c.border}`,
+              borderRadius: '20px',
+              padding: '18px 20px',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              boxShadow: `0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)`,
+            }}
           >
+            {/* Header row */}
             <div className="flex items-start justify-between gap-3">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${c.badge}`}>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span style={{
+                    ...c.badge,
+                    borderRadius: '999px',
+                    padding: '2px 10px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                  }}>
                     {seq.name}
                   </span>
                 </div>
-                <p className="text-white font-semibold text-base leading-snug">{seq.subtitle}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{poses.length} poses</p>
+                <p style={{ color: '#f7f2ee', fontWeight: 600, fontSize: '16px', lineHeight: '1.3' }}>
+                  {seq.subtitle}
+                </p>
+                <p style={{ color: '#b9adbf', fontSize: '12px', marginTop: '3px' }}>
+                  {poses.length} poses
+                </p>
               </div>
-              <span className={`mt-0.5 text-xs px-3 py-1.5 rounded-xl text-white font-medium ${c.btn}`}>
-                Start →
+
+              <span style={{
+                ...c.btn,
+                borderRadius: '999px',
+                padding: '8px 18px',
+                fontSize: '13px',
+                fontWeight: 600,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                marginTop: '2px',
+              }}>
+                Begin →
               </span>
             </div>
 
-            {/* Pose emoji preview */}
-            <div className="flex items-center gap-1.5 mt-3 flex-wrap">
+            {/* Emoji preview */}
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
               {preview.map(p => (
-                <span key={p.id} title={p.englishName} className="text-xl">{p.emoji}</span>
+                <span key={p.id} title={p.englishName} style={{ fontSize: '20px', lineHeight: 1 }}>
+                  {p.emoji}
+                </span>
               ))}
               {poses.length > 6 && (
-                <span className="text-xs text-slate-500">+{poses.length - 6} more</span>
+                <span style={{ color: '#b9adbf', fontSize: '11px' }}>+{poses.length - 6}</span>
               )}
             </div>
 
-            {/* First few English names as small tags */}
-            <div className="flex flex-wrap gap-1 mt-2">
+            {/* Pose name tags */}
+            <div className="flex flex-wrap gap-1 mt-2.5">
               {poses.slice(0, 5).map(p => (
-                <span key={p.id} className="text-[10px] text-slate-400 bg-slate-800/80 px-1.5 py-0.5 rounded">
+                <span key={p.id} style={{
+                  ...c.tag,
+                  borderRadius: '999px',
+                  padding: '2px 9px',
+                  fontSize: '10px',
+                  letterSpacing: '0.02em',
+                }}>
                   {p.englishName}
                 </span>
               ))}
               {poses.length > 5 && (
-                <span className="text-[10px] text-slate-500 px-1.5 py-0.5">…</span>
+                <span style={{ color: '#b9adbf', fontSize: '10px', padding: '2px 4px' }}>…</span>
               )}
             </div>
           </motion.button>

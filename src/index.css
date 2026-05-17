@@ -1,38 +1,52 @@
 /* Tailwind v4 */
 @import "tailwindcss";
 
-/* ── Theme tokens ──────────────────────────────────────────────────────────
-   Primary background : #1a1a2e  (dark navy)
-   Surface            : #16213e  (card/panel background)
-   Surface deep       : #0d0d1e  (bottom bars, overlays)
-   Accent purple      : #9C6FFF
-   Accent teal        : #26C6DA
+/* ── Design tokens ─────────────────────────────────────────────────────────
+   Warm dark: #17131f  (background)
+   Surface  : #211a2b  (cards/panels)
+   Deep     : #120e1a  (bottom bars)
+   Lavender : #b9a7e8  (primary accent)
+   Sage     : #9fb8a3  (secondary accent)
+   Clay     : #d59b7a  (warm tertiary)
+   Cream    : #f7f2ee  (primary text)
+   Muted    : #b9adbf  (secondary text)
    ───────────────────────────────────────────────────────────────────────── */
 @theme {
-  --color-brand:         #9C6FFF;
-  --color-brand-light:   #B085FF;
-  --color-brand-teal:    #26C6DA;
-  --color-surface:       #1a1a2e;
-  --color-surface-2:     #16213e;
-  --color-surface-deep:  #0d0d1e;
+  --color-brand:        #b9a7e8;
+  --color-brand-light:  #d0c4f5;
+  --color-clay:         #d59b7a;
+  --color-sage:         #9fb8a3;
+  --color-cream:        #f7f2ee;
+  --color-muted:        #b9adbf;
+  --color-surface:      #17131f;
+  --color-surface-2:    #211a2b;
+  --color-surface-deep: #120e1a;
 }
 
-/* Prevent rubber-band scroll on iOS */
 html, body {
   overscroll-behavior: none;
 }
 
-/* Thin, unobtrusive scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2a2a5e transparent;
+  scrollbar-color: rgba(185, 167, 232, 0.18) transparent;
 }
 
-/* Figure idle float — lives here so it applies to a plain div, not inside SVG */
+/* Gentle organic float — slower, with a faint sway */
 @keyframes figFloat {
-  0%, 100% { transform: translateY(0px);  }
-  50%       { transform: translateY(-8px); }
+  0%, 100% { transform: translateY(0px)   rotate(0deg);   }
+  35%       { transform: translateY(-7px)  rotate(0.4deg);  }
+  70%       { transform: translateY(-3px)  rotate(-0.25deg); }
 }
 .fig-idle {
-  animation: figFloat 4s ease-in-out infinite;
+  animation: figFloat 6s ease-in-out infinite;
+}
+
+/* Soft breathing pulse — for ambient glow elements */
+@keyframes breathePulse {
+  0%, 100% { opacity: 0.3; transform: scale(1);    }
+  50%       { opacity: 0.6; transform: scale(1.06); }
+}
+.breathe-glow {
+  animation: breathePulse 4s ease-in-out infinite;
 }
