@@ -34,21 +34,3 @@ html, body {
   scrollbar-color: rgba(196, 181, 253, 0.12) transparent;
 }
 
-/* Gentle organic float */
-@keyframes figFloat {
-  0%, 100% { transform: translateY(0px)  rotate(0deg);    }
-  35%       { transform: translateY(-7px) rotate(0.4deg);  }
-  70%       { transform: translateY(-3px) rotate(-0.25deg);}
-}
-.fig-idle {
-  animation: figFloat 6s ease-in-out infinite;
-}
-
-/* Slow breathing pulse for ambient glow */
-@keyframes breathePulse {
-  0%, 100% { opacity: 0.2;  transform: scale(1);    }
-  50%       { opacity: 0.48; transform: scale(1.08); }
-}
-.breathe-glow {
-  animation: breathePulse 4.5s ease-in-out infinite;
-}
