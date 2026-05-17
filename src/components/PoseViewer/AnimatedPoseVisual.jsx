@@ -21,12 +21,14 @@ import { BreathingAura } from '../ui/animations'
 import TadasanaAnimation         from './poses/TadasanaAnimation'
 import UttanasanaAnimation       from './poses/UttanasanaAnimation'
 import ArdhaUttanasanaAnimation  from './poses/ArdhaUttanasanaAnimation'
+import PhalakasanaAnimation      from './poses/PhalakasanaAnimation'
 
 // Add a component here to override the fallback for any pose.
 const POSE_COMPONENTS = {
-  'tadasana':        TadasanaAnimation,
-  'uttanasana':      UttanasanaAnimation,
+  'tadasana':         TadasanaAnimation,
+  'uttanasana':       UttanasanaAnimation,
   'ardha-uttanasana': ArdhaUttanasanaAnimation,
+  'phalakasana':      PhalakasanaAnimation,
 }
 
 const MIN_PX = 300
