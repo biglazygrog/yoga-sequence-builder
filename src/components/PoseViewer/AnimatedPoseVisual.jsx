@@ -18,19 +18,21 @@ import { motion, AnimatePresence } from 'framer-motion'
 // If no Lottie files exist in public/lottie/, this library is never fetched.
 import FlatFigure from './FlatFigure'
 import { BreathingAura } from '../ui/animations'
-import TadasanaAnimation         from './poses/TadasanaAnimation'
-import UttanasanaAnimation       from './poses/UttanasanaAnimation'
-import ArdhaUttanasanaAnimation  from './poses/ArdhaUttanasanaAnimation'
-import PhalakasanaAnimation      from './poses/PhalakasanaAnimation'
-import ChaturangaAnimation       from './poses/ChaturangaAnimation'
+import TadasanaAnimation              from './poses/TadasanaAnimation'
+import UttanasanaAnimation            from './poses/UttanasanaAnimation'
+import ArdhaUttanasanaAnimation       from './poses/ArdhaUttanasanaAnimation'
+import PhalakasanaAnimation           from './poses/PhalakasanaAnimation'
+import ChaturangaAnimation            from './poses/ChaturangaAnimation'
+import UrdhvaMukhaSvanasanaAnimation  from './poses/UrdhvaMukhaSvanasanaAnimation'
 
 // Add a component here to override the fallback for any pose.
 const POSE_COMPONENTS = {
-  'tadasana':              TadasanaAnimation,
-  'uttanasana':            UttanasanaAnimation,
-  'ardha-uttanasana':      ArdhaUttanasanaAnimation,
-  'phalakasana':           PhalakasanaAnimation,
-  'chaturanga-dandasana':  ChaturangaAnimation,
+  'tadasana':                TadasanaAnimation,
+  'uttanasana':              UttanasanaAnimation,
+  'ardha-uttanasana':        ArdhaUttanasanaAnimation,
+  'phalakasana':             PhalakasanaAnimation,
+  'chaturanga-dandasana':    ChaturangaAnimation,
+  'urdhva-mukha-svanasana':  UrdhvaMukhaSvanasanaAnimation,
 }
 
 const MIN_PX = 300
@@ -124,15 +126,15 @@ export default function AnimatedPoseVisual({ joints, poseId, series }) {
       {/* Ambient breathing aura — always behind the figure */}
       <BreathingAura />
 
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {/* ── Lottie animation (only when library + data are both ready) ── */}
         {showLottie && (
           <motion.div
             key="lottie"
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.5, ease }}
+            initial={{ opacity: 0, y: 18, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0,  scale: 1    }}
+            exit={{    opacity: 0, y: -18, scale: 1.02 }}
+            transition={{ duration: 0.55, ease }}
             style={{
               position: 'absolute', inset: 0, zIndex: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -151,10 +153,10 @@ export default function AnimatedPoseVisual({ joints, poseId, series }) {
         {showCustomPose && (
           <motion.div
             key={`custom-${poseId}`}
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease }}
+            initial={{ opacity: 0, y: 18, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0,  scale: 1    }}
+            exit={{    opacity: 0, y: -18, scale: 1.02 }}
+            transition={{ duration: 0.55, ease }}
             style={{ position: 'absolute', inset: 0, zIndex: 1 }}
           >
             <CustomPose />
@@ -165,10 +167,10 @@ export default function AnimatedPoseVisual({ joints, poseId, series }) {
         {imgSrc && !showLottie && !showCustomPose && (
           <motion.div
             key={imgSrc}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 18, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0,  scale: 1    }}
+            exit={{    opacity: 0, y: -18, scale: 1.02 }}
+            transition={{ duration: 0.55, ease }}
             style={{
               position: 'absolute', inset: 0, zIndex: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
