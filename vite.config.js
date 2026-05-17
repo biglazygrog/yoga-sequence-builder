@@ -35,7 +35,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        // Cache JS, CSS, HTML, fonts, and images for offline use
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
