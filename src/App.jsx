@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Leaf } from 'lucide-react'
+import { Leaf, Sparkles } from 'lucide-react'
 import PoseViewer from './components/PoseViewer/PoseViewer'
 import SequenceSelector from './components/SequenceSelector/SequenceSelector'
 import { POSES } from './data/poses'
@@ -9,9 +9,9 @@ import { PREBUILT_SEQUENCES } from './data/sequences'
 const POSE_BY_ID = Object.fromEntries(POSES.map(p => [p.id, p]))
 
 // ── App ─────────────────────────────────────────────────────────────────────
-// Mobile-first layout. Warm dark background #17131f. Two views:
-//   'choose'   — compact figure preview (no timer) + sequence cards
-//   'practice' — full-screen PoseViewer (timer + nav) + scrollable progress strip
+// Mobile-first. Two views:
+//   'choose'   — figure preview + sequence cards
+//   'practice' — full-screen PoseViewer + progress strip
 
 export default function App() {
   const [tab, setTab]                     = useState('choose')
@@ -47,43 +47,56 @@ export default function App() {
     setTab('practice')
   }
 
-  const glassPanel = {
-    background: '#251e38',
-    border: '1px solid rgba(255,255,255,0.09)',
-  }
-
   return (
     <div
       className="flex flex-col min-h-screen max-h-screen overflow-hidden"
-      style={{ background: '#1c1530' }}
+      style={{ background: '#1a1628' }}
     >
 
       {/* ── Header ──────────────────────────────────────────────────── */}
       <header
-        className="flex-shrink-0 flex items-center justify-between px-5 py-4"
+        className="flex-shrink-0 flex items-center justify-between"
         style={{
+          padding: '14px 20px',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(28,21,48,0.92)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          background: 'rgba(26,22,40,0.94)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
         }}
       >
         <div className="flex items-center gap-2.5">
-          <Leaf size={18} style={{ color: '#9fb8a3' }} aria-hidden />
+          <Leaf size={17} style={{ color: '#a3c4a8' }} aria-hidden />
           <div>
-            <h1 style={{ color: '#f7f2ee', fontSize: '14px', fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+            <h1 style={{
+              color: '#f0ece8',
+              fontSize: '14px',
+              fontWeight: 600,
+              lineHeight: 1.2,
+              letterSpacing: '-0.02em',
+            }}>
               Rocket Yoga
             </h1>
-            <p style={{ color: '#b9adbf', fontSize: '10px', lineHeight: 1, marginTop: '1px', letterSpacing: '0.06em' }}>
-              SEQUENCE BUILDER
+            <p style={{
+              color: '#4a4560',
+              fontSize: '9.5px',
+              lineHeight: 1,
+              marginTop: '2px',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+            }}>
+              Sequence Builder
             </p>
           </div>
         </div>
 
         {/* Tab switcher */}
         <nav
-          className="flex gap-1 rounded-full p-1"
-          style={{ background: 'rgba(255,255,255,0.06)' }}
+          className="flex gap-1 p-1"
+          style={{
+            background: 'rgba(255,255,255,0.05)',
+            borderRadius: '999px',
+            border: '1px solid rgba(255,255,255,0.07)',
+          }}
           role="tablist"
         >
           {[['choose', 'Series'], ['practice', 'Practice']].map(([key, label]) => (
@@ -92,12 +105,18 @@ export default function App() {
               role="tab"
               aria-selected={tab === key}
               onClick={() => setTab(key)}
-              className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200"
-              style={
-                tab === key
-                  ? { background: '#b9a7e8', color: '#17131f' }
-                  : { color: '#b9adbf' }
-              }
+              className="transition-all duration-200"
+              style={{
+                padding: '6px 16px',
+                borderRadius: '999px',
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.01em',
+                ...(tab === key
+                  ? { background: '#c4b5fd', color: '#160f2a' }
+                  : { color: '#6b6580' }
+                ),
+              }}
             >
               {label}
             </button>
@@ -109,10 +128,16 @@ export default function App() {
       {tab === 'choose' && (
         <div className="flex-1 flex flex-col overflow-hidden min-h-0">
 
-          {/* Compact figure preview */}
+          {/* Figure preview */}
           <div
-            className="flex-shrink-0 mx-4 mt-3 rounded-3xl overflow-hidden"
-            style={{ ...glassPanel, height: '256px' }}
+            className="flex-shrink-0 overflow-hidden"
+            style={{
+              margin: '14px 16px 0',
+              borderRadius: '24px',
+              background: '#231e34',
+              border: '1px solid rgba(255,255,255,0.07)',
+              height: '248px',
+            }}
           >
             <PoseViewer
               pose={selectedPose}
@@ -122,21 +147,34 @@ export default function App() {
             />
           </div>
 
-          {/* Pose name under preview */}
+          {/* Pose name */}
           <AnimatePresence mode="wait">
             {selectedPose && (
               <motion.div
                 key={selectedPose.id}
-                initial={{ opacity: 0, y: 4 }}
+                initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.22, ease: 'easeOut' }}
-                className="flex-shrink-0 text-center py-2.5 px-4"
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="flex-shrink-0 text-center"
+                style={{ padding: '12px 16px 8px' }}
               >
-                <p style={{ color: '#f7f2ee', fontSize: '15px', fontWeight: 600, lineHeight: 1.3 }}>
+                <p style={{
+                  color: '#f0ece8',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  lineHeight: 1.3,
+                  letterSpacing: '-0.01em',
+                }}>
                   {selectedPose.englishName}
                 </p>
-                <p style={{ color: '#b9adbf', fontSize: '11px', fontStyle: 'italic', marginTop: '2px' }}>
+                <p style={{
+                  color: '#6b6580',
+                  fontSize: '11px',
+                  fontStyle: 'italic',
+                  marginTop: '3px',
+                  letterSpacing: '0.02em',
+                }}>
                   {selectedPose.sanskritName}
                 </p>
               </motion.div>
@@ -144,7 +182,11 @@ export default function App() {
           </AnimatePresence>
 
           {/* Series cards */}
-          <main className="flex-1 overflow-hidden px-4 pb-4 min-h-0" role="main">
+          <main
+            className="flex-1 overflow-hidden min-h-0"
+            style={{ padding: '0 16px 16px' }}
+            role="main"
+          >
             <SequenceSelector onSelect={loadPreset} />
           </main>
         </div>
@@ -156,24 +198,48 @@ export default function App() {
 
           {/* Empty state */}
           {sequence.length === 0 && (
-            <div className="flex-1 flex flex-col items-center justify-center gap-5 text-center px-8">
-              <div style={{ fontSize: '56px' }}>🧘</div>
-              <p style={{ color: '#b9adbf', fontSize: '14px', lineHeight: 1.6 }}>
-                Choose a series to begin your practice
-              </p>
+            <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center px-8">
+              <div style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '999px',
+                background: 'rgba(196,181,253,0.1)',
+                border: '1px solid rgba(196,181,253,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <Sparkles size={28} style={{ color: '#c4b5fd' }} />
+              </div>
+              <div>
+                <p style={{
+                  color: '#f0ece8',
+                  fontSize: '18px',
+                  fontWeight: 600,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '8px',
+                }}>
+                  Ready to practice?
+                </p>
+                <p style={{ color: '#6b6580', fontSize: '13px', lineHeight: 1.6 }}>
+                  Choose a series to begin
+                </p>
+              </div>
               <button
                 onClick={() => setTab('choose')}
                 className="transition-all active:scale-95"
                 style={{
-                  background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)',
-                  color: '#17131f',
+                  background: '#c4b5fd',
+                  color: '#160f2a',
                   borderRadius: '999px',
-                  padding: '12px 28px',
+                  padding: '13px 32px',
                   fontSize: '14px',
                   fontWeight: 600,
+                  letterSpacing: '0.01em',
+                  boxShadow: '0 4px 20px rgba(196,181,253,0.28)',
                 }}
               >
-                Choose Series →
+                Choose Series
               </button>
             </div>
           )}
@@ -181,7 +247,7 @@ export default function App() {
           {/* Practice mode */}
           {sequence.length > 0 && (
             <>
-              {/* PoseViewer fills available space — absolute inner ensures height:100% resolves */}
+              {/* PoseViewer — absolute-fill guarantees height:100% resolves */}
               <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative' }}>
                 <div style={{ position: 'absolute', inset: 0 }}>
                   <PoseViewer
@@ -193,62 +259,84 @@ export default function App() {
                 </div>
               </div>
 
-              {/* ── Progress strip (meditation beads) ──────────────── */}
+              {/* ── Progress strip — premium horizontal pills, no emojis ── */}
               <div
                 ref={progressRef}
-                className="flex-shrink-0 flex gap-2 overflow-x-auto px-4 py-3"
+                className="flex-shrink-0 flex gap-2 overflow-x-auto"
                 style={{
-                  background: '#160f28',
+                  background: '#120f1e',
                   borderTop: '1px solid rgba(255,255,255,0.06)',
+                  padding: '10px 16px',
                   scrollbarWidth: 'none',
+                  WebkitOverflowScrolling: 'touch',
                 }}
               >
-                {sequence.map((pose, i) => (
-                  <button
-                    key={i}
-                    data-active={i === practiceIndex}
-                    onClick={() => setPracticeIndex(i)}
-                    className="flex-shrink-0 flex flex-col items-center gap-0.5
-                      px-2 py-1.5 rounded-2xl min-w-[52px] max-w-[64px]
-                      border transition-all duration-300"
-                    style={
-                      i === practiceIndex
-                        ? {
-                            background: 'rgba(185,167,232,0.18)',
-                            borderColor: 'rgba(185,167,232,0.45)',
-                            transform: 'scale(1.08)',
-                            boxShadow: '0 0 14px rgba(185,167,232,0.22)',
-                          }
-                        : i < practiceIndex
-                        ? {
-                            background: 'rgba(255,255,255,0.025)',
-                            borderColor: 'rgba(255,255,255,0.05)',
-                            opacity: 0.32,
-                          }
-                        : {
-                            background: 'rgba(255,255,255,0.04)',
-                            borderColor: 'rgba(255,255,255,0.08)',
-                          }
-                    }
-                  >
-                    <span style={{ fontSize: '18px', lineHeight: 1 }}>{pose.emoji}</span>
-                    <span
-                      className="text-[9px] text-center leading-tight w-full line-clamp-2 mt-0.5"
-                      style={{ color: i === practiceIndex ? '#d0c4f5' : '#8a7d94' }}
+                {sequence.map((pose, i) => {
+                  const isActive = i === practiceIndex
+                  const isPast   = i < practiceIndex
+                  return (
+                    <button
+                      key={i}
+                      data-active={isActive}
+                      onClick={() => setPracticeIndex(i)}
+                      className="flex-shrink-0 flex items-center gap-2 transition-all duration-250"
+                      style={{
+                        height: '34px',
+                        padding: '0 12px',
+                        borderRadius: '999px',
+                        border: '1px solid',
+                        ...(isActive ? {
+                          background: 'rgba(196,181,253,0.14)',
+                          borderColor: 'rgba(196,181,253,0.35)',
+                          boxShadow: '0 0 0 3px rgba(196,181,253,0.07)',
+                        } : isPast ? {
+                          background: 'transparent',
+                          borderColor: 'rgba(255,255,255,0.05)',
+                          opacity: 0.36,
+                        } : {
+                          background: 'rgba(255,255,255,0.04)',
+                          borderColor: 'rgba(255,255,255,0.07)',
+                        }),
+                      }}
                     >
-                      {pose.englishName}
-                    </span>
-                  </button>
-                ))}
+                      {/* Dot indicator */}
+                      <span
+                        className="flex-shrink-0 rounded-full"
+                        style={{
+                          width: '5px',
+                          height: '5px',
+                          background: isActive ? '#c4b5fd'
+                            : isPast ? '#2e2a40'
+                            : '#3d3858',
+                        }}
+                      />
+                      {/* Pose name */}
+                      <span style={{
+                        fontSize: '11px',
+                        fontWeight: isActive ? 500 : 400,
+                        color: isActive ? '#ddd6fe' : '#5c5870',
+                        whiteSpace: 'nowrap',
+                        letterSpacing: '0.01em',
+                      }}>
+                        {pose.englishName}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
 
               {/* Pose counter */}
-              <p
-                className="flex-shrink-0 text-center text-[10px] py-1"
-                style={{ background: '#160f28', color: 'rgba(185,167,232,0.38)', letterSpacing: '0.08em' }}
-              >
-                {practiceIndex + 1} / {sequence.length}
-              </p>
+              <div style={{ background: '#120f1e', padding: '5px 0 8px' }}>
+                <p style={{
+                  textAlign: 'center',
+                  fontSize: '10px',
+                  color: '#3d3858',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}>
+                  {practiceIndex + 1} of {sequence.length}
+                </p>
+              </div>
             </>
           )}
         </div>
