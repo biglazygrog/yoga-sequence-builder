@@ -2,11 +2,12 @@
  * AnimatedPoseVisual
  *
  * Priority chain per pose:
- *   1. /public/lottie/{poseId}.json     — pose-specific Lottie
- *   2. /public/lottie/{series}.json     — series-level Lottie (e.g. "surya", "rocket1")
- *   3. /public/lottie/default.json      — global fallback Lottie
- *   4. /public/images/poses/{poseId}.png — high-res photo (≥300 px)
- *   5. FlatFigure SVG                   — always available, lerp-animated
+ *   1. /public/lottie/{poseId}.json      — pose-specific Lottie
+ *   2. /public/lottie/{series}.json      — series-level Lottie (e.g. "surya", "rocket1")
+ *   3. /public/lottie/default.json       — global fallback Lottie
+ *   4. POSE_COMPONENTS[poseId]           — custom React component for this pose
+ *   5. /public/images/poses/{poseId}.png — high-res photo (≥300 px)
+ *   6. FlatFigure SVG                    — always available, lerp-animated
  *
  * Drop any .json file from LottieFiles into public/lottie/ and it is picked
  * up automatically — no code changes required.
@@ -17,6 +18,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 // If no Lottie files exist in public/lottie/, this library is never fetched.
 import FlatFigure from './FlatFigure'
 import { BreathingAura } from '../ui/animations'
+import TadasanaAnimation from './poses/TadasanaAnimation'
+
+// Add a component here to override the fallback for any pose.
+const POSE_COMPONENTS = {
+  'tadasana': TadasanaAnimation,
+}
 
 const MIN_PX = 300
 const ease   = [0.25, 0.46, 0.45, 0.94]
@@ -99,7 +106,9 @@ export default function AnimatedPoseVisual({ joints, poseId, series }) {
     return () => { cancelled = true }
   }, [poseId, series]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const showLottie = lottieData && LottieComp
+  const showLottie     = lottieData && LottieComp
+  const CustomPose     = POSE_COMPONENTS[poseId] ?? null
+  const showCustomPose = !showLottie && CustomPose
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
@@ -130,8 +139,22 @@ export default function AnimatedPoseVisual({ joints, poseId, series }) {
           </motion.div>
         )}
 
+        {/* ── Custom React pose component ─────────────────────── */}
+        {showCustomPose && (
+          <motion.div
+            key={`custom-${poseId}`}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease }}
+            style={{ position: 'absolute', inset: 0, zIndex: 1 }}
+          >
+            <CustomPose />
+          </motion.div>
+        )}
+
         {/* ── High-res PNG (≥300 px) ───────────────────────────── */}
-        {imgSrc && !showLottie && (
+        {imgSrc && !showLottie && !showCustomPose && (
           <motion.div
             key={imgSrc}
             initial={{ opacity: 0 }}
@@ -152,7 +175,7 @@ export default function AnimatedPoseVisual({ joints, poseId, series }) {
         )}
 
         {/* ── FlatFigure SVG fallback ──────────────────────────── */}
-        {!showLottie && !imgSrc && (
+        {!showLottie && !showCustomPose && !imgSrc && (
           <motion.div
             key="svg"
             initial={{ opacity: 0 }}
