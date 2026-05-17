@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight, Play, Pause, RotateCcw } from 'lucide-react'
 import { useTimer } from '../../hooks/useTimer'
 
 const RADIUS = 45
@@ -6,46 +7,30 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 export default function Timer({ pose, onNext, onPrev }) {
   const { timeLeft, status, progress, start, pause, reset } = useTimer(
     pose?.duration ?? 30,
-    onNext  // fires automatically when the countdown hits zero
+    onNext,
   )
 
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60
   const dashOffset = CIRCUMFERENCE * (1 - progress)
 
-  // Status label shown inside the ring
-  const statusLabel = {
-    idle:    'ready',
-    running: 'hold',
-    paused:  'paused',
-    done:    'next ➜',
-  }[status]
+  const statusLabel = { idle: 'ready', running: 'hold', paused: 'paused', done: 'done ✓' }[status]
 
   return (
-    <div className="flex flex-col items-center gap-6 py-4">
-      {/* SVG ring countdown */}
+    <div className="flex flex-col items-center gap-5 py-4">
+
+      {/* SVG ring */}
       <div className="relative w-44 h-44">
-        <svg
-          className="w-full h-full -rotate-90"
-          viewBox="0 0 100 100"
-          aria-label={`${minutes}:${String(seconds).padStart(2, '0')} remaining`}
-        >
-          {/* Track */}
+        <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100"
+          aria-label={`${minutes}:${String(seconds).padStart(2, '0')} remaining`}>
           <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="#1e293b" strokeWidth="7" />
-          {/* Progress arc */}
-          <circle
-            cx="50" cy="50" r={RADIUS}
-            fill="none"
+          <circle cx="50" cy="50" r={RADIUS} fill="none"
             stroke={status === 'done' ? '#34d399' : '#818cf8'}
-            strokeWidth="7"
-            strokeLinecap="round"
-            strokeDasharray={CIRCUMFERENCE}
-            strokeDashoffset={dashOffset}
+            strokeWidth="7" strokeLinecap="round"
+            strokeDasharray={CIRCUMFERENCE} strokeDashoffset={dashOffset}
             className="transition-all duration-1000 ease-linear"
           />
         </svg>
-
-        {/* Time display — centered over the SVG */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
           <span className="text-3xl font-mono font-bold text-white tabular-nums">
             {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
@@ -54,42 +39,36 @@ export default function Timer({ pose, onNext, onPrev }) {
         </div>
       </div>
 
-      {/* Control buttons */}
+      {/* Controls */}
       <div className="flex items-center gap-3">
-        <button
-          onClick={onPrev}
-          className="px-3 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-sm"
-          aria-label="Previous pose"
-        >
-          ← Prev
+        <button onClick={onPrev}
+          className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700
+            flex items-center justify-center transition-colors"
+          aria-label="Previous pose">
+          <ChevronLeft size={20} />
         </button>
 
-        <button
-          onClick={reset}
-          className="px-3 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-sm"
-          aria-label="Reset timer"
-        >
-          ↺
+        <button onClick={reset}
+          className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700
+            flex items-center justify-center transition-colors"
+          aria-label="Reset timer">
+          <RotateCcw size={17} />
         </button>
 
         <button
           onClick={status === 'running' ? pause : start}
-          className={`px-6 py-2 rounded-xl text-white font-semibold text-sm transition-colors
-            ${status === 'running'
-              ? 'bg-indigo-700 hover:bg-indigo-600'
-              : 'bg-indigo-600 hover:bg-indigo-500'
-            }`}
-          aria-label={status === 'running' ? 'Pause' : 'Start'}
-        >
-          {status === 'running' ? '⏸ Pause' : '▶ Start'}
+          className={`w-14 h-10 rounded-xl text-white font-semibold flex items-center justify-center
+            gap-1.5 transition-colors
+            ${status === 'running' ? 'bg-indigo-700 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-500'}`}
+          aria-label={status === 'running' ? 'Pause' : 'Start'}>
+          {status === 'running' ? <Pause size={17} /> : <Play size={17} />}
         </button>
 
-        <button
-          onClick={onNext}
-          className="px-3 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-sm"
-          aria-label="Next pose"
-        >
-          Next →
+        <button onClick={onNext}
+          className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700
+            flex items-center justify-center transition-colors"
+          aria-label="Next pose">
+          <ChevronRight size={20} />
         </button>
       </div>
 

@@ -13,9 +13,9 @@ export default defineConfig({
       manifest: {
         name: 'Rocket Yoga Sequence Builder',
         short_name: 'RocketYoga',
-        description: 'Build and practice Rocket yoga sequences with 3D pose visualization',
-        theme_color: '#6366f1',
-        background_color: '#0f172a',
+        description: 'Build and practice Rocket yoga sequences with flat illustrated pose animations',
+        theme_color: '#9C6FFF',
+        background_color: '#1a1a2e',
         display: 'standalone',
         scope: '/',
         start_url: '/',

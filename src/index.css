@@ -1,12 +1,20 @@
-/* Tailwind v4: a single @import replaces the old three-directive approach */
+/* Tailwind v4 */
 @import "tailwindcss";
 
-/* Custom theme tokens — used via bg-brand, text-brand, etc. */
+/* ── Theme tokens ──────────────────────────────────────────────────────────
+   Primary background : #1a1a2e  (dark navy)
+   Surface            : #16213e  (card/panel background)
+   Surface deep       : #0d0d1e  (bottom bars, overlays)
+   Accent purple      : #9C6FFF
+   Accent teal        : #26C6DA
+   ───────────────────────────────────────────────────────────────────────── */
 @theme {
-  --color-brand: #6366f1;
-  --color-brand-light: #818cf8;
-  --color-surface: #0f172a;
-  --color-surface-2: #1e293b;
+  --color-brand:         #9C6FFF;
+  --color-brand-light:   #B085FF;
+  --color-brand-teal:    #26C6DA;
+  --color-surface:       #1a1a2e;
+  --color-surface-2:     #16213e;
+  --color-surface-deep:  #0d0d1e;
 }
 
 /* Prevent rubber-band scroll on iOS */
@@ -14,8 +22,17 @@ html, body {
   overscroll-behavior: none;
 }
 
-/* Smooth scrollbars */
+/* Thin, unobtrusive scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #334155 transparent;
+  scrollbar-color: #2a2a5e transparent;
+}
+
+/* Figure idle float — lives here so it applies to a plain div, not inside SVG */
+@keyframes figFloat {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-8px); }
+}
+.fig-idle {
+  animation: figFloat 4s ease-in-out infinite;
 }

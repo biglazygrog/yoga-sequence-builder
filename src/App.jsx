@@ -1,146 +1,224 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Rocket } from 'lucide-react'
 import PoseViewer from './components/PoseViewer/PoseViewer'
-import Timer from './components/Timer/Timer'
-import SequenceBuilder from './components/SequenceBuilder/SequenceBuilder'
+import SequenceSelector from './components/SequenceSelector/SequenceSelector'
 import { POSES } from './data/poses'
+import { PREBUILT_SEQUENCES } from './data/sequences'
 
-// The app has two top-level tabs:
-//  "Build" — browse the library, preview poses in the 3D viewer, build a sequence
-//  "Practice" — cycle through the sequence with the countdown timer
+const POSE_BY_ID = Object.fromEntries(POSES.map(p => [p.id, p]))
+
+// ── App ─────────────────────────────────────────────────────────────────────
+// Mobile-first layout. Dark background #1a1a2e. Two views:
+//   'choose'   — compact figure preview (no timer) + sequence cards
+//   'practice' — full-screen PoseViewer (timer + nav) + scrollable progress strip
 
 export default function App() {
-  const [tab, setTab] = useState('build')
-  const [sequence, setSequence]         = useState([])
-  const [selectedPose, setSelectedPose] = useState(POSES[0])
+  const [tab, setTab]                     = useState('choose')
+  const [sequence, setSequence]           = useState([])
+  const [selectedPose, setSelectedPose]   = useState(POSES[0])
   const [practiceIndex, setPracticeIndex] = useState(0)
+  const progressRef = useRef(null)
 
-  // The 3D viewer shows the selected browse pose in build mode,
-  // or the current practice pose in practice mode
-  const viewerPose = tab === 'practice' && sequence.length > 0
-    ? sequence[practiceIndex]
-    : selectedPose
+  const practicePose = sequence[practiceIndex] ?? null
+
+  // Scroll active chip into view
+  useEffect(() => {
+    if (!progressRef.current) return
+    progressRef.current
+      .querySelector('[data-active="true"]')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }, [practiceIndex])
 
   const goNext = () => {
-    if (sequence.length === 0) return
+    if (!sequence.length) return
     setPracticeIndex(i => (i + 1) % sequence.length)
   }
-
   const goPrev = () => {
-    if (sequence.length === 0) return
+    if (!sequence.length) return
     setPracticeIndex(i => (i - 1 + sequence.length) % sequence.length)
   }
 
-  const startPractice = () => {
+  const loadPreset = preset => {
+    const poses = preset.poseIds.map(id => POSE_BY_ID[id]).filter(Boolean)
+    setSequence(poses)
+    setSelectedPose(poses[0])
     setPracticeIndex(0)
     setTab('practice')
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex flex-col max-h-screen overflow-hidden">
+    <div
+      className="flex flex-col min-h-screen max-h-screen overflow-hidden"
+      style={{ background: '#1a1a2e' }}
+    >
 
-      {/* ── Header ────────────────────────────────────────────────────── */}
-      <header className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-slate-800">
+      {/* ── Header ──────────────────────────────────────────────────── */}
+      <header
+        className="flex-shrink-0 flex items-center justify-between px-4 py-3"
+        style={{ borderBottom: '1px solid #2a2a5e' }}
+      >
         <div className="flex items-center gap-2">
-          <span className="text-2xl" aria-hidden>🚀</span>
+          <Rocket size={20} className="text-[#9C6FFF]" aria-hidden />
           <div>
-            <h1 className="text-base font-bold leading-tight">Rocket Yoga</h1>
-            <p className="text-[10px] text-slate-500 leading-none">Sequence Builder</p>
+            <h1 className="text-sm font-bold leading-tight text-white">Rocket Yoga</h1>
+            <p className="text-[10px] leading-none" style={{ color: '#6a6a9e' }}>
+              Sequence Builder
+            </p>
           </div>
         </div>
 
-        <nav className="flex gap-1 bg-slate-800 rounded-xl p-1" role="tablist">
-          {['build', 'practice'].map(t => (
+        {/* Tab switcher */}
+        <nav
+          className="flex gap-1 rounded-xl p-1"
+          style={{ background: '#16213e' }}
+          role="tablist"
+        >
+          {[['choose', 'Series'], ['practice', 'Practice']].map(([key, label]) => (
             <button
-              key={t}
+              key={key}
               role="tab"
-              aria-selected={tab === t}
-              onClick={() => setTab(t)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors
-                ${tab === t
-                  ? 'bg-indigo-600 text-white shadow'
-                  : 'text-slate-400 hover:text-white'
-                }`}
+              aria-selected={tab === key}
+              onClick={() => setTab(key)}
+              className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
+              style={
+                tab === key
+                  ? { background: '#9C6FFF', color: '#fff' }
+                  : { color: '#8888a8' }
+              }
             >
-              {t}
+              {label}
             </button>
           ))}
         </nav>
       </header>
 
-      {/* ── 3D Viewer (always visible) ─────────────────────────────────── */}
-      <div className="flex-shrink-0 h-52 mx-4 mt-3 rounded-xl overflow-hidden bg-slate-950">
-        <PoseViewer pose={viewerPose} />
-      </div>
+      {/* ── Choose tab ──────────────────────────────────────────────── */}
+      {tab === 'choose' && (
+        <div className="flex-1 flex flex-col overflow-hidden min-h-0">
 
-      {/* Pose name under the viewer */}
-      {viewerPose && (
-        <div className="flex-shrink-0 flex items-center justify-center gap-3 py-2 px-4">
-          <span className="text-lg">{viewerPose.emoji}</span>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-white leading-tight">{viewerPose.englishName}</p>
-            <p className="text-xs text-slate-500 italic">{viewerPose.sanskritName}</p>
+          {/* Compact figure preview — no timer */}
+          <div
+            className="flex-shrink-0 mx-4 mt-3 rounded-2xl overflow-hidden"
+            style={{ background: '#16213e', height: '256px' }}
+          >
+            <PoseViewer
+              pose={selectedPose}
+              showTimer={false}
+              onNext={() => {}}
+              onPrev={() => {}}
+            />
           </div>
+
+          {/* Pose name under the preview */}
+          <AnimatePresence mode="wait">
+            {selectedPose && (
+              <motion.div
+                key={selectedPose.id}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18 }}
+                className="flex-shrink-0 text-center py-2 px-4"
+              >
+                <p className="text-sm font-semibold text-white leading-tight">
+                  {selectedPose.englishName}
+                </p>
+                <p className="text-xs italic mt-0.5" style={{ color: '#6a6a9e' }}>
+                  {selectedPose.sanskritName}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Series cards */}
+          <main className="flex-1 overflow-hidden px-4 pb-4 min-h-0" role="main">
+            <SequenceSelector onSelect={loadPreset} />
+          </main>
         </div>
       )}
 
-      {/* ── Tab content ───────────────────────────────────────────────── */}
-      <main className="flex-1 overflow-hidden px-4 pb-4" role="tabpanel">
-        {tab === 'build' ? (
-          <SequenceBuilder
-            sequence={sequence}
-            onSequenceChange={setSequence}
-            onSelectPose={setSelectedPose}
-            selectedPose={selectedPose}
-            onPractice={startPractice}
-          />
-        ) : (
-          /* ── Practice mode ─────────────────────────────────────────── */
-          <div className="h-full flex flex-col overflow-y-auto">
-            {sequence.length === 0 ? (
-              /* Empty state */
-              <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center">
-                <div className="text-5xl">🧘</div>
-                <p className="text-slate-400 text-sm">Build a sequence first</p>
-                <button
-                  onClick={() => setTab('build')}
-                  className="px-4 py-2 bg-indigo-600 rounded-xl text-white text-sm font-medium hover:bg-indigo-500"
-                >
-                  Go to Builder →
-                </button>
-              </div>
-            ) : (
-              <>
-                <Timer
-                  pose={sequence[practiceIndex]}
+      {/* ── Practice tab ────────────────────────────────────────────── */}
+      {tab === 'practice' && (
+        <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+
+          {/* Empty state */}
+          {sequence.length === 0 && (
+            <div className="flex-1 flex flex-col items-center justify-center gap-5 text-center px-6">
+              <div className="text-6xl">🧘</div>
+              <p className="text-slate-400 text-sm">Choose a series to begin your practice</p>
+              <button
+                onClick={() => setTab('choose')}
+                className="px-6 py-2.5 rounded-2xl text-white text-sm font-semibold
+                  transition-all active:scale-95"
+                style={{ background: '#9C6FFF' }}
+              >
+                Choose Series →
+              </button>
+            </div>
+          )}
+
+          {/* Practice mode */}
+          {sequence.length > 0 && (
+            <>
+              {/* PoseViewer fills available space */}
+              <div style={{ flex: '1 1 0', minHeight: 0 }}>
+                <PoseViewer
+                  pose={practicePose}
                   onNext={goNext}
                   onPrev={goPrev}
+                  showTimer
                 />
+              </div>
 
-                {/* Progress dots — tap to jump to any pose */}
-                <div className="flex gap-2 justify-center flex-wrap py-2">
-                  {sequence.map((pose, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setPracticeIndex(i)}
-                      title={pose.englishName}
-                      className={`text-xl w-10 h-10 rounded-xl flex items-center justify-center
-                        transition-all duration-200 border-2
-                        ${i === practiceIndex
-                          ? 'bg-indigo-600 border-indigo-400 scale-110'
-                          : i < practiceIndex
-                          ? 'bg-slate-800 border-slate-700 opacity-40'
-                          : 'bg-slate-800 border-slate-700'
-                        }`}
+              {/* ── Progress strip ───────────────────────────────── */}
+              <div
+                ref={progressRef}
+                className="flex-shrink-0 flex gap-2 overflow-x-auto px-4 py-2"
+                style={{
+                  background: '#0d0d1e',
+                  borderTop: '1px solid #2a2a5e',
+                  scrollbarWidth: 'none',
+                }}
+              >
+                {sequence.map((pose, i) => (
+                  <button
+                    key={i}
+                    data-active={i === practiceIndex}
+                    onClick={() => setPracticeIndex(i)}
+                    className="flex-shrink-0 flex flex-col items-center gap-0.5
+                      px-2 py-1.5 rounded-xl min-w-[52px] max-w-[64px]
+                      border-2 transition-all duration-200"
+                    style={
+                      i === practiceIndex
+                        ? { background: 'rgba(156,111,255,0.25)', borderColor: '#9C6FFF', transform: 'scale(1.06)' }
+                        : i < practiceIndex
+                        ? { background: '#16213e', borderColor: '#2a2a5e', opacity: 0.4 }
+                        : { background: '#16213e', borderColor: '#2a2a5e' }
+                    }
+                  >
+                    <span className="text-lg leading-none">{pose.emoji}</span>
+                    <span
+                      className="text-[9px] text-center leading-tight w-full line-clamp-2 mt-0.5"
+                      style={{ color: i === practiceIndex ? '#c4aaff' : '#8888a8' }}
                     >
-                      {pose.emoji}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </main>
+                      {pose.englishName}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Pose counter */}
+              <p
+                className="flex-shrink-0 text-center text-[10px] py-1"
+                style={{ background: '#0d0d1e', color: '#4a4a7e' }}
+              >
+                {practiceIndex + 1} / {sequence.length}
+              </p>
+            </>
+          )}
+        </div>
+      )}
     </div>
   )
 }

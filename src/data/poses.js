@@ -1357,6 +1357,446 @@ export const POSES = [
     ],
   },
 
+  // ── ADDITIONAL ROCKET I POSES ────────────────────────────────────────────
+
+  {
+    id: 'trianga-mukhaikapada',
+    englishName: 'Three-Limbed Forward Bend',
+    sanskritName: 'Trianga Mukhaikapada Paschimottanasana',
+    emoji: '🦵',
+    category: 'seated',
+    series: ['rocket1'],
+    difficulty: 'intermediate',
+    duration: 30,
+    description: 'Seated fold over one extended leg with the other folded back beside the hip.',
+    benefits: ['Stretches hamstrings asymmetrically', 'Opens the knee joint', 'Calming'],
+    cues: ['Keep both sitting bones even', 'Fold from the hip crease', 'Flex the extended foot'],
+    joints: [
+      [0, 0.5, -0.8],      // HEAD
+      [0, 0.65, -0.65],    // NECK
+      [-0.3, 0.85, -0.45], // L_SHOULDER
+      [0.3, 0.85, -0.45],  // R_SHOULDER
+      [-0.3, 0.5, -0.8],   // L_ELBOW
+      [0.3, 0.5, -0.8],    // R_ELBOW
+      [-0.18, 0.1, -1.1],  // L_HAND
+      [0.18, 0.1, -1.1],   // R_HAND
+      [0, 0.95, 0.05],     // SPINE
+      [-0.18, 0.7, 0.1],   // L_HIP
+      [0.18, 0.65, 0.1],   // R_HIP
+      [-0.18, 0.35, -0.6], // L_KNEE (extended leg)
+      [0.22, 0.2, 0.55],   // R_KNEE (bent back, Virasana style)
+      [-0.18, 0.08, -1.05], // L_FOOT
+      [0.25, 0.08, 0.75],  // R_FOOT (beside hip)
+    ],
+  },
+
+  {
+    id: 'supta-konasana',
+    englishName: 'Reclined Angle Pose',
+    sanskritName: 'Supta Konasana',
+    emoji: '🌟',
+    category: 'inverted',
+    series: ['rocket1'],
+    difficulty: 'intermediate',
+    duration: 10,
+    description: 'Rolling back in shoulderstand and spreading the legs wide apart overhead.',
+    benefits: ['Opens the inner groins', 'Massages the spine', 'Inversion benefits'],
+    cues: ['Hold the big toes from outside', 'Keep legs straight', 'Breathe into the back'],
+    joints: [
+      [0, 0.1, -0.3],      // HEAD
+      [0, 0.1, -0.1],      // NECK
+      [-0.35, 0.1, 0.05],  // L_SHOULDER
+      [0.35, 0.1, 0.05],   // R_SHOULDER
+      [-0.75, 0.1, -0.15], // L_ELBOW (arms wide, holding feet)
+      [0.75, 0.1, -0.15],  // R_ELBOW
+      [-1.05, 0.1, -0.65], // L_HAND
+      [1.05, 0.1, -0.65],  // R_HAND
+      [0, 0.75, 0.1],      // SPINE
+      [-0.18, 1.35, 0.1],  // L_HIP
+      [0.18, 1.35, 0.1],   // R_HIP
+      [-0.65, 1.3, -0.25], // L_KNEE (legs wide overhead)
+      [0.65, 1.3, -0.25],  // R_KNEE
+      [-1.0, 0.1, -0.75],  // L_FOOT
+      [1.0, 0.1, -0.75],   // R_FOOT
+    ],
+  },
+
+  {
+    id: 'supta-padangustasana',
+    englishName: 'Reclined Big Toe Pose',
+    sanskritName: 'Supta Padangustasana',
+    emoji: '🦶',
+    category: 'supine',
+    series: ['rocket1'],
+    difficulty: 'beginner',
+    duration: 30,
+    description: 'Lying on the back with one leg raised and held by the hand.',
+    benefits: ['Stretches hamstrings gently', 'Releases lower back', 'Good for sciatica'],
+    cues: ['Keep bottom leg active, pressing through the heel', 'Relax the shoulders', 'Breathe into the back of the raised leg'],
+    joints: [
+      [0, 0.1, -0.65],     // HEAD
+      [0, 0.1, -0.45],     // NECK
+      [-0.45, 0.1, -0.25], // L_SHOULDER
+      [0.45, 0.1, -0.25],  // R_SHOULDER
+      [-0.5, 0.1, 0.1],    // L_ELBOW
+      [0.25, 0.55, -0.15], // R_ELBOW (reaching up to hold foot)
+      [-0.5, 0.1, 0.35],   // L_HAND (resting)
+      [0.15, 1.0, -0.1],   // R_HAND (holding left foot)
+      [0, 0.1, 0],         // SPINE
+      [-0.2, 0.1, 0.2],    // L_HIP
+      [0.2, 0.1, 0.2],     // R_HIP
+      [-0.18, 0.55, -0.1], // L_KNEE (raised leg)
+      [0.18, 0.1, 0.65],   // R_KNEE (flat, grounded)
+      [-0.15, 1.0, -0.1],  // L_FOOT (held up)
+      [0.18, 0.1, 1.0],    // R_FOOT (flat)
+    ],
+  },
+
+  {
+    id: 'ubhaya-padangustasana',
+    englishName: 'Both Feet Balance',
+    sanskritName: 'Ubhaya Padangustasana',
+    emoji: '⚖️',
+    category: 'seated',
+    series: ['rocket1'],
+    difficulty: 'intermediate',
+    duration: 15,
+    description: 'Balancing on the sitting bones with both legs raised, holding the big toes.',
+    benefits: ['Strengthens core and hip flexors', 'Improves balance', 'Stretches hamstrings'],
+    cues: ['Roll up from Halasana with control', 'Keep spine long', 'Squeeze thighs toward each other'],
+    joints: [
+      [0, 1.6, -0.35],     // HEAD
+      [0, 1.45, -0.25],    // NECK
+      [-0.35, 1.25, -0.1], // L_SHOULDER
+      [0.35, 1.25, -0.1],  // R_SHOULDER
+      [-0.6, 1.55, 0.1],   // L_ELBOW (arms reaching up to feet)
+      [0.6, 1.55, 0.1],    // R_ELBOW
+      [-0.22, 1.9, 0.35],  // L_HAND (holding big toes)
+      [0.22, 1.9, 0.35],   // R_HAND
+      [0, 0.85, 0],        // SPINE
+      [-0.2, 0.65, 0.1],   // L_HIP
+      [0.2, 0.65, 0.1],    // R_HIP
+      [-0.22, 1.2, 0.4],   // L_KNEE
+      [0.22, 1.2, 0.4],    // R_KNEE
+      [-0.2, 1.85, 0.45],  // L_FOOT (extended up)
+      [0.2, 1.85, 0.45],   // R_FOOT
+    ],
+  },
+
+  {
+    id: 'eka-pada-raja-kapotasana',
+    englishName: 'Pigeon Pose',
+    sanskritName: 'Eka Pada Raja Kapotasana',
+    emoji: '🕊️',
+    category: 'seated',
+    series: ['rocket1'],
+    difficulty: 'intermediate',
+    duration: 30,
+    description: 'Front leg bent across the mat, back leg extended — a deep hip opener.',
+    benefits: ['Deep hip flexor and external rotator stretch', 'Releases psoas', 'Grounding'],
+    cues: ['Square hips toward the front', 'Place a block under the front hip if needed', 'Breathe into resistance'],
+    joints: [
+      [0, 1.45, -0.15],    // HEAD
+      [0, 1.3, -0.1],      // NECK
+      [-0.35, 1.1, 0],     // L_SHOULDER
+      [0.35, 1.1, 0],      // R_SHOULDER
+      [-0.5, 0.7, 0.2],    // L_ELBOW
+      [0.5, 0.7, 0.2],     // R_ELBOW
+      [-0.5, 0.1, 0.5],    // L_HAND (on floor)
+      [0.5, 0.1, 0.5],     // R_HAND
+      [0, 1.05, 0.05],     // SPINE
+      [-0.3, 0.45, 0.1],   // L_HIP (front leg side)
+      [0.2, 0.75, 0.3],    // R_HIP (back leg side)
+      [-0.55, 0.2, -0.3],  // L_KNEE (front knee bent out)
+      [0.2, 0.4, 0.65],    // R_KNEE (back knee extending)
+      [-0.15, 0.1, -0.5],  // L_FOOT (front foot forward)
+      [0.2, 0.1, 1.1],     // R_FOOT (back, extended)
+    ],
+  },
+
+  {
+    id: 'gomukasana',
+    englishName: 'Cow Face Pose',
+    sanskritName: 'Gomukhasana',
+    emoji: '🐄',
+    category: 'seated',
+    series: ['rocket1'],
+    difficulty: 'intermediate',
+    duration: 30,
+    description: 'Legs stacked like a cow face, arms in a bind behind the back.',
+    benefits: ['Opens hips and external rotators', 'Stretches shoulders', 'Improves posture'],
+    cues: ['Stack the knees directly over each other', 'Reach top elbow toward ceiling', 'Work toward clasping hands'],
+    joints: [
+      [0, 1.55, 0],        // HEAD
+      [0, 1.4, 0],         // NECK
+      [-0.35, 1.2, 0],     // L_SHOULDER
+      [0.35, 1.2, 0],      // R_SHOULDER
+      [-0.25, 1.58, 0.05], // L_ELBOW (left arm over shoulder, elbow up)
+      [0.38, 0.88, 0.3],   // R_ELBOW (right arm behind back, elbow down)
+      [-0.2, 1.22, 0.3],   // L_HAND (clasping behind upper back)
+      [-0.2, 1.18, 0.3],   // R_HAND
+      [0, 0.9, 0],         // SPINE
+      [-0.18, 0.65, 0.15], // L_HIP
+      [0.18, 0.65, 0.15],  // R_HIP
+      [-0.38, 0.3, 0.35],  // L_KNEE (knees stacked)
+      [0.38, 0.35, 0.3],   // R_KNEE
+      [0.35, 0.2, 0.45],   // L_FOOT (out to one side)
+      [-0.35, 0.15, 0.45], // R_FOOT (other side)
+    ],
+  },
+
+  // ── ADDITIONAL ROCKET II POSES ────────────────────────────────────────────
+
+  {
+    id: 'pasasana',
+    englishName: 'Noose Pose',
+    sanskritName: 'Pasasana',
+    emoji: '🪢',
+    category: 'standing',
+    series: ['rocket2'],
+    difficulty: 'advanced',
+    duration: 20,
+    description: 'A deep squat with a full spinal twist and arm bind — opens Rocket II.',
+    benefits: ['Deep spinal rotation', 'Opens ankles and Achilles', 'Stimulates digestion'],
+    cues: ['Squat with heels together', 'Twist deeply before binding', 'Use a wall for balance'],
+    joints: [
+      [0.3, 0.85, 0.2],    // HEAD
+      [0.2, 0.75, 0.15],   // NECK
+      [-0.15, 0.65, 0.05], // L_SHOULDER
+      [0.4, 0.65, 0.05],   // R_SHOULDER
+      [-0.4, 0.55, 0.4],   // L_ELBOW (binding around legs)
+      [0.55, 0.5, -0.1],   // R_ELBOW
+      [-0.1, 0.5, 0.5],    // L_HAND
+      [0.4, 0.35, 0.35],   // R_HAND (clasping in bind)
+      [0.05, 0.55, 0.15],  // SPINE
+      [-0.18, 0.4, 0.25],  // L_HIP
+      [0.18, 0.4, 0.25],   // R_HIP
+      [-0.2, 0.25, 0.5],   // L_KNEE (deep squat)
+      [0.2, 0.25, 0.5],    // R_KNEE
+      [-0.18, 0.08, 0.65], // L_FOOT
+      [0.18, 0.08, 0.65],  // R_FOOT
+    ],
+  },
+
+  {
+    id: 'krounchasana',
+    englishName: 'Heron Pose',
+    sanskritName: 'Krounchasana',
+    emoji: '🦢',
+    category: 'seated',
+    series: ['rocket2'],
+    difficulty: 'intermediate',
+    duration: 20,
+    description: 'Seated with one leg raised high and held — named after the heron bird.',
+    benefits: ['Stretches hamstrings intensely', 'Strengthens hip flexors', 'Improves focus'],
+    cues: ['Keep spine tall', 'Flex the raised foot', 'Draw the leg toward the torso'],
+    joints: [
+      [0, 1.5, -0.3],      // HEAD
+      [0, 1.35, -0.2],     // NECK
+      [-0.3, 1.15, -0.1],  // L_SHOULDER
+      [0.3, 1.15, -0.1],   // R_SHOULDER
+      [-0.35, 1.45, 0.15], // L_ELBOW (arms reaching up)
+      [0.35, 1.45, 0.15],  // R_ELBOW
+      [-0.2, 1.88, 0.35],  // L_HAND (holding foot)
+      [0.2, 1.88, 0.35],   // R_HAND
+      [0, 0.9, 0.1],       // SPINE
+      [-0.18, 0.65, 0.15], // L_HIP
+      [0.18, 0.65, 0.15],  // R_HIP
+      [-0.18, 1.25, 0.4],  // L_KNEE (raised leg)
+      [0.25, 0.3, 0.5],    // R_KNEE (bent back, Virasana)
+      [-0.18, 1.85, 0.4],  // L_FOOT (held high)
+      [0.2, 0.08, 0.72],   // R_FOOT (on floor)
+    ],
+  },
+
+  {
+    id: 'supta-virasana',
+    englishName: 'Reclined Hero Pose',
+    sanskritName: 'Supta Virasana',
+    emoji: '🛋️',
+    category: 'supine',
+    series: ['rocket2'],
+    difficulty: 'intermediate',
+    duration: 30,
+    description: 'Hero pose reclined — a deep quad and hip-flexor stretch.',
+    benefits: ['Deeply stretches quads and hip flexors', 'Relieves leg fatigue', 'Prepares for backbends'],
+    cues: ['Lower back slowly onto forearms then floor', 'Keep knees hip-width or narrower', 'Arms overhead or by sides'],
+    joints: [
+      [0, 0.1, 0.4],       // HEAD (on floor, back)
+      [0, 0.18, 0.2],      // NECK
+      [-0.4, 0.1, -0.1],   // L_SHOULDER
+      [0.4, 0.1, -0.1],    // R_SHOULDER
+      [-0.55, 0.1, 0.25],  // L_ELBOW
+      [0.55, 0.1, 0.25],   // R_ELBOW
+      [-0.6, 0.1, 0.6],    // L_HAND
+      [0.6, 0.1, 0.6],     // R_HAND
+      [0, 0.1, -0.1],      // SPINE (flat)
+      [-0.18, 0.1, -0.3],  // L_HIP
+      [0.18, 0.1, -0.3],   // R_HIP
+      [-0.18, 0.1, 0.15],  // L_KNEE
+      [0.18, 0.1, 0.15],   // R_KNEE
+      [-0.22, 0.1, 0.55],  // L_FOOT (feet beside hips)
+      [0.22, 0.1, 0.55],   // R_FOOT
+    ],
+  },
+
+  {
+    id: 'kapotasana',
+    englishName: 'King Pigeon Pose',
+    sanskritName: 'Kapotasana',
+    emoji: '👑',
+    category: 'supine',
+    series: ['rocket2'],
+    difficulty: 'advanced',
+    duration: 15,
+    description: 'Kneeling extreme backbend — hands walk to hold the heels behind the head.',
+    benefits: ['Opens the chest and hip flexors maximally', 'Strengthens the back', 'Peak backbend'],
+    cues: ['Walk hands toward feet', 'Keep hips over knees', 'Breathe into the chest'],
+    joints: [
+      [0, 0.95, 0.55],     // HEAD
+      [0, 1.2, 0.45],      // NECK
+      [-0.4, 1.55, 0.15],  // L_SHOULDER
+      [0.4, 1.55, 0.15],   // R_SHOULDER
+      [-0.4, 1.0, 0.55],   // L_ELBOW (forearms reaching back)
+      [0.4, 1.0, 0.55],    // R_ELBOW
+      [-0.25, 0.4, 0.62],  // L_HAND (on heels)
+      [0.25, 0.4, 0.62],   // R_HAND
+      [0, 1.6, 0.25],      // SPINE (extreme arch)
+      [-0.18, 1.05, 0.1],  // L_HIP
+      [0.18, 1.05, 0.1],   // R_HIP
+      [-0.18, 0.08, 0.05], // L_KNEE (on floor)
+      [0.18, 0.08, 0.05],  // R_KNEE
+      [-0.22, 0.08, 0.5],  // L_FOOT (instep on floor)
+      [0.22, 0.08, 0.5],   // R_FOOT
+    ],
+  },
+
+  {
+    id: 'bharadvajasana',
+    englishName: "Bharadvaja's Twist",
+    sanskritName: 'Bharadvajasana',
+    emoji: '🌀',
+    category: 'seated',
+    series: ['rocket2'],
+    difficulty: 'beginner',
+    duration: 20,
+    description: 'A gentle seated twist — legs folded to one side, torso rotating the other.',
+    benefits: ['Releases spinal tension', 'Massages abdominal organs', 'Accessible twist'],
+    cues: ['Lengthen before you twist', 'Both sitting bones stay grounded', 'Twist from the navel, not the shoulder'],
+    joints: [
+      [0.25, 1.5, 0.2],    // HEAD
+      [0.15, 1.38, 0.15],  // NECK
+      [-0.2, 1.2, 0.25],   // L_SHOULDER
+      [0.42, 1.2, -0.05],  // R_SHOULDER
+      [-0.38, 0.88, 0.55], // L_ELBOW
+      [0.58, 0.88, -0.05], // R_ELBOW
+      [-0.32, 0.62, 0.6],  // L_HAND
+      [0.52, 0.58, 0.05],  // R_HAND
+      [0.05, 0.9, 0.1],    // SPINE
+      [-0.18, 0.65, 0.15], // L_HIP
+      [0.18, 0.65, 0.15],  // R_HIP
+      [-0.4, 0.3, 0.45],   // L_KNEE (both legs bent to side)
+      [-0.22, 0.2, 0.6],   // R_KNEE
+      [-0.48, 0.1, 0.6],   // L_FOOT
+      [-0.28, 0.1, 0.72],  // R_FOOT
+    ],
+  },
+
+  {
+    id: 'ardha-matsyendrasana',
+    englishName: 'Half Lord of the Fishes',
+    sanskritName: 'Ardha Matsyendrasana',
+    emoji: '🐟',
+    category: 'seated',
+    series: ['rocket2'],
+    difficulty: 'intermediate',
+    duration: 20,
+    description: 'A deep seated twist named after the sage Matsyendra.',
+    benefits: ['Deep spinal rotation', 'Stimulates kidneys and liver', 'Improves digestion'],
+    cues: ['Root both sitting bones', 'Inhale to lengthen, exhale to twist', 'Gaze follows the rotation'],
+    joints: [
+      [0.32, 1.5, 0.22],   // HEAD
+      [0.22, 1.38, 0.16],  // NECK
+      [-0.22, 1.16, 0.32], // L_SHOULDER
+      [0.46, 1.16, -0.08], // R_SHOULDER
+      [-0.46, 0.86, 0.68], // L_ELBOW (pressing against knee)
+      [0.66, 0.86, -0.1],  // R_ELBOW (arm behind)
+      [-0.42, 0.62, 0.68], // L_HAND
+      [0.66, 0.56, 0.06],  // R_HAND
+      [0.04, 0.9, 0.1],    // SPINE
+      [-0.18, 0.65, 0.15], // L_HIP
+      [0.18, 0.65, 0.15],  // R_HIP
+      [-0.18, 0.35, -0.65], // L_KNEE (extended)
+      [0.22, 0.62, 0.42],  // R_KNEE (bent foot over leg)
+      [-0.18, 0.08, -1.0], // L_FOOT
+      [0.22, 0.32, 0.52],  // R_FOOT
+    ],
+  },
+
+  {
+    id: 'mayurasana',
+    englishName: 'Peacock Pose',
+    sanskritName: 'Mayurasana',
+    emoji: '🦚',
+    category: 'balance',
+    series: ['rocket2'],
+    difficulty: 'advanced',
+    duration: 10,
+    description: 'Body held horizontally on bent elbows pressing into the abdomen.',
+    benefits: ['Extreme core and arm strength', 'Stimulates digestion', 'Builds focus'],
+    cues: ['Elbows press into lower belly', 'Lean torso forward to counterbalance', 'Keep legs together and engaged'],
+    joints: [
+      [0, 0.58, -0.68],    // HEAD
+      [0, 0.58, -0.48],    // NECK
+      [-0.22, 0.58, -0.28], // L_SHOULDER
+      [0.22, 0.58, -0.28], // R_SHOULDER
+      [-0.22, 0.32, 0.0],  // L_ELBOW (elbows in abdomen)
+      [0.22, 0.32, 0.0],   // R_ELBOW
+      [-0.22, 0.08, 0.32], // L_HAND (fingers forward)
+      [0.22, 0.08, 0.32],  // R_HAND
+      [0, 0.58, 0.22],     // SPINE
+      [-0.18, 0.58, 0.52], // L_HIP
+      [0.18, 0.58, 0.52],  // R_HIP
+      [-0.18, 0.58, 0.88], // L_KNEE
+      [0.18, 0.58, 0.88],  // R_KNEE
+      [-0.18, 0.58, 1.18], // L_FOOT (horizontal, lifted)
+      [0.18, 0.58, 1.18],  // R_FOOT
+    ],
+  },
+
+  {
+    id: 'nakrasana',
+    englishName: 'Crocodile Pose',
+    sanskritName: 'Nakrasana',
+    emoji: '🐊',
+    category: 'prone',
+    series: ['rocket2'],
+    difficulty: 'intermediate',
+    duration: 10,
+    description: 'A series of five hopping jumps forward then back in a low plank position.',
+    benefits: ['Builds explosive arm strength', 'Core strengthener', 'Develops body awareness'],
+    cues: ['Keep hips level', 'Engage the core before each hop', 'Land softly on hands and feet'],
+    joints: [
+      [0, 0.42, -0.82],    // HEAD
+      [0, 0.52, -0.62],    // NECK
+      [-0.35, 0.57, -0.42], // L_SHOULDER
+      [0.35, 0.57, -0.42], // R_SHOULDER
+      [-0.35, 0.3, -0.58], // L_ELBOW
+      [0.35, 0.3, -0.58],  // R_ELBOW
+      [-0.35, 0.08, -0.78], // L_HAND
+      [0.35, 0.08, -0.78], // R_HAND
+      [0, 0.57, 0.05],     // SPINE
+      [-0.18, 0.54, 0.22], // L_HIP
+      [0.18, 0.54, 0.22],  // R_HIP
+      [-0.18, 0.27, 0.62], // L_KNEE
+      [0.18, 0.27, 0.62],  // R_KNEE
+      [-0.18, 0.08, 1.0],  // L_FOOT
+      [0.18, 0.08, 1.0],   // R_FOOT
+    ],
+  },
+
+  // ── FINISHING ─────────────────────────────────────────────────────────────
+
   {
     id: 'balasana',
     englishName: "Child's Pose",
