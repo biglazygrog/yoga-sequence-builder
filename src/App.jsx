@@ -48,16 +48,14 @@ export default function App() {
   }
 
   const glassPanel = {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.07)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
+    background: '#251e38',
+    border: '1px solid rgba(255,255,255,0.09)',
   }
 
   return (
     <div
       className="flex flex-col min-h-screen max-h-screen overflow-hidden"
-      style={{ background: '#17131f' }}
+      style={{ background: '#1c1530' }}
     >
 
       {/* ── Header ──────────────────────────────────────────────────── */}
@@ -65,7 +63,7 @@ export default function App() {
         className="flex-shrink-0 flex items-center justify-between px-5 py-4"
         style={{
           borderBottom: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(23,19,31,0.85)',
+          background: 'rgba(28,21,48,0.92)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
         }}
@@ -183,14 +181,16 @@ export default function App() {
           {/* Practice mode */}
           {sequence.length > 0 && (
             <>
-              {/* PoseViewer fills available space */}
-              <div style={{ flex: '1 1 0', minHeight: 0 }}>
-                <PoseViewer
-                  pose={practicePose}
-                  onNext={goNext}
-                  onPrev={goPrev}
-                  showTimer
-                />
+              {/* PoseViewer fills available space — absolute inner ensures height:100% resolves */}
+              <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative' }}>
+                <div style={{ position: 'absolute', inset: 0 }}>
+                  <PoseViewer
+                    pose={practicePose}
+                    onNext={goNext}
+                    onPrev={goPrev}
+                    showTimer
+                  />
+                </div>
               </div>
 
               {/* ── Progress strip (meditation beads) ──────────────── */}
@@ -198,7 +198,7 @@ export default function App() {
                 ref={progressRef}
                 className="flex-shrink-0 flex gap-2 overflow-x-auto px-4 py-3"
                 style={{
-                  background: '#120e1a',
+                  background: '#160f28',
                   borderTop: '1px solid rgba(255,255,255,0.06)',
                   scrollbarWidth: 'none',
                 }}
@@ -245,7 +245,7 @@ export default function App() {
               {/* Pose counter */}
               <p
                 className="flex-shrink-0 text-center text-[10px] py-1"
-                style={{ background: '#120e1a', color: 'rgba(185,167,232,0.38)', letterSpacing: '0.08em' }}
+                style={{ background: '#160f28', color: 'rgba(185,167,232,0.38)', letterSpacing: '0.08em' }}
               >
                 {practiceIndex + 1} / {sequence.length}
               </p>

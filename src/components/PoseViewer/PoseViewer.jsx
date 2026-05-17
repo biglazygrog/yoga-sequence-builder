@@ -96,7 +96,7 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: '#17131f' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: '#1c1530' }}>
 
       {/* Animated figure */}
       <div style={{ flex: '1 1 0', minHeight: 0 }}>
@@ -108,7 +108,7 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
         className="flex-shrink-0 px-5 pt-3 space-y-3"
         style={{
           paddingBottom: showTimer ? 'max(env(safe-area-inset-bottom, 0px), 20px)' : '14px',
-          background: 'linear-gradient(to top, #120e1a 55%, transparent)',
+          background: 'linear-gradient(to top, #160f28 60%, transparent)',
         }}
       >
         {/* Pose name */}
@@ -201,7 +201,7 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
               <button
                 onClick={status === 'running' ? pause : start}
                 className="flex items-center gap-2 px-8 h-10 rounded-full font-semibold text-sm transition-all active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#17131f' }}
+                style={{ background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#1c1530' }}
                 aria-label={status === 'running' ? 'Pause' : 'Start'}
               >
                 {status === 'running'
@@ -230,7 +230,7 @@ export default function PoseViewer({ pose, onNext, onPrev, showTimer = true }) {
               onClick={onNext}
               className="flex-1 h-11 rounded-full flex items-center justify-center gap-1.5
                 font-semibold text-sm transition-all active:scale-[0.97]"
-              style={{ background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#17131f' }}
+              style={{ background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#1c1530' }}
               aria-label="Next pose"
             >
               Next

@@ -6,27 +6,27 @@ const POSE_BY_ID = Object.fromEntries(POSES.map(p => [p.id, p]))
 
 const STYLE_MAP = {
   emerald: {
-    cardBg:   'linear-gradient(145deg, rgba(159,184,163,0.1) 0%, rgba(33,26,43,0.5) 100%)',
-    border:   'rgba(159,184,163,0.22)',
-    badge:    { background: 'rgba(159,184,163,0.14)', color: '#9fb8a3' },
-    btn:      { background: 'linear-gradient(135deg, #9fb8a3, #7da382)', color: '#17131f' },
-    tag:      { background: 'rgba(159,184,163,0.08)', color: '#9fb8a3' },
+    cardBg:   'linear-gradient(145deg, #243028 0%, #201c30 100%)',
+    border:   'rgba(159,184,163,0.28)',
+    badge:    { background: 'rgba(159,184,163,0.18)', color: '#9fb8a3' },
+    btn:      { background: 'linear-gradient(135deg, #9fb8a3, #7da382)', color: '#1a2820' },
+    tag:      { background: 'rgba(159,184,163,0.12)', color: '#9fb8a3' },
     accent:   '#9fb8a3',
   },
   blue: {
-    cardBg:   'linear-gradient(145deg, rgba(213,155,122,0.1) 0%, rgba(33,26,43,0.5) 100%)',
-    border:   'rgba(213,155,122,0.22)',
-    badge:    { background: 'rgba(213,155,122,0.14)', color: '#d59b7a' },
-    btn:      { background: 'linear-gradient(135deg, #d59b7a, #b87c59)', color: '#17131f' },
-    tag:      { background: 'rgba(213,155,122,0.08)', color: '#d59b7a' },
+    cardBg:   'linear-gradient(145deg, #302418 0%, #201c30 100%)',
+    border:   'rgba(213,155,122,0.28)',
+    badge:    { background: 'rgba(213,155,122,0.18)', color: '#d59b7a' },
+    btn:      { background: 'linear-gradient(135deg, #d59b7a, #b87c59)', color: '#281c10' },
+    tag:      { background: 'rgba(213,155,122,0.12)', color: '#d59b7a' },
     accent:   '#d59b7a',
   },
   purple: {
-    cardBg:   'linear-gradient(145deg, rgba(185,167,232,0.1) 0%, rgba(33,26,43,0.5) 100%)',
-    border:   'rgba(185,167,232,0.22)',
-    badge:    { background: 'rgba(185,167,232,0.14)', color: '#b9a7e8' },
-    btn:      { background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#17131f' },
-    tag:      { background: 'rgba(185,167,232,0.08)', color: '#b9a7e8' },
+    cardBg:   'linear-gradient(145deg, #281e38 0%, #201c30 100%)',
+    border:   'rgba(185,167,232,0.28)',
+    badge:    { background: 'rgba(185,167,232,0.18)', color: '#b9a7e8' },
+    btn:      { background: 'linear-gradient(135deg, #b9a7e8, #9b86d9)', color: '#1a1430' },
+    tag:      { background: 'rgba(185,167,232,0.12)', color: '#b9a7e8' },
     accent:   '#b9a7e8',
   },
 }
@@ -58,9 +58,7 @@ export default function SequenceSelector({ onSelect }) {
               border: `1px solid ${c.border}`,
               borderRadius: '20px',
               padding: '18px 20px',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              boxShadow: `0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)`,
+              boxShadow: `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
             }}
           >
             {/* Header row */}
